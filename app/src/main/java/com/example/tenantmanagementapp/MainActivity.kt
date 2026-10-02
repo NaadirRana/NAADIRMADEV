@@ -1,44 +1,29 @@
 package com.example.tenantmanagementapp
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import com.example.tenantmanagementapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
 
-        val tenantNameEditText =
-            findViewById<EditText>(R.id.tenantNameEditText)
+        // Inflate the layout using View Binding
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val phoneEditText =
-            findViewById<EditText>(R.id.phoneEditText)
+        // Handle SAVE button click using Data Binding
+        binding.saveButton.setOnClickListener {
+            val name = binding.tenantNameEditText.text.toString()
+            val phone = binding.phoneEditText.text.toString()
+            val rent = binding.rentEditText.text.toString()
 
-        val rentEditText =
-            findViewById<EditText>(R.id.rentEditText)
-
-        val saveButton =
-            findViewById<Button>(R.id.saveButton)
-
-        val tenantResultTextView =
-            findViewById<TextView>(R.id.tenantResultTextView)
-
-        saveButton.setOnClickListener {
-            val name = tenantNameEditText.text.toString()
-            val phone = phoneEditText.text.toString()
-            val rent = rentEditText.text.toString()
-
-            tenantResultTextView.text =
-                "Tenant: $name\nPhone: $phone\nRent Paid: $rent"
+            // Instantiate Tenant and assign to binding variable for Data Binding display
+            val tenant = Tenant(name, phone, rent)
+            binding.tenant = tenant
         }
     }
 }
